@@ -2,11 +2,15 @@ from fastapi import FastAPI
 from app.routes import user_routes, restaurant_routes, menu_routes, cart_routes, order_routes, payment_routes, upload_routes, analytics_routes
 from app.database import Base, engine
 from fastapi.staticfiles import StaticFiles
+import os
 
 # create tables automatically
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Food Ordering Backend")
+
+if not os.path.exists("app/uploads"):
+    os.makedirs("app/uploads")
 
 app.mount("/uploads", StaticFiles(directory="app/uploads"), name="uploads")
 
